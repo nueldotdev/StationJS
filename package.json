@@ -1,0 +1,37 @@
+{
+  "name": "station-js",
+  "version": "1.0.0",
+  "description": "Tiny backend framework made cause of boredom",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "chokidar": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0"
+  },
+  "bin": {
+    "station": "./bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nueldotdev/StationJS.git"
+  },
+  "keywords": [
+    "backend",
+    "framework",
+    "javascript",
+    "api",
+    "server"
+  ],
+  "author": "nueldotdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nueldotdev/StationJS/issues"
+  },
+  "homepage": "https://github.com/nueldotdev/StationJS#readme"
+}

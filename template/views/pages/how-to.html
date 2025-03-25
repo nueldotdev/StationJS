@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How StationJS Works</title>
+  <title>How StationX Works</title>
   <link rel="stylesheet" href="/static/styles/style.css">
   <link rel="icon" href="/media/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/static/styles/how-to.css">
 </head>
 <body>
   <div class="container">
-    <h1>How StationJS Works</h1>
+    <h1>How StationX Works</h1>
     <div class="content">
       <section>
         <h2>1. Defining Routes with <code>route</code></h2>
-        <p>The <code>route</code> function is the core of StationJS. It allows you to define individual routes and their handlers. Here's an example:</p>
-        <pre><code>import { route } from 'station-js';
+        <p>The <code>route</code> function is the core of StationX. It allows you to define individual routes and their handlers. Here's an example:</p>
+        <pre><code>import { route } from 'station-x';
 
 const homeRoute = route('/home', {
   GET: (ctx) => {
-    return { body: { message: 'Welcome to StationJS!' }, status: 200 };
+    return { body: { message: 'Welcome to StationX!' }, status: 200 };
   }
 });</code></pre>
         <p>Each route can handle multiple HTTP methods (e.g., GET, POST, DELETE) by defining them as keys in the handler object.</p>
@@ -27,8 +27,8 @@ const homeRoute = route('/home', {
 
       <section>
         <h2>2. Grouping Routes with <code>use</code></h2>
-        <p>StationJS allows you to group related routes under a base path using the <code>use</code> function:</p>
-        <pre><code>import { use, route } from 'station-js';
+        <p>StationX allows you to group related routes under a base path using the <code>use</code> function:</p>
+        <pre><code>import { use, route } from 'station-x';
 
 const userRoutes = use('/users', [
   route('/', {
@@ -50,7 +50,7 @@ const userRoutes = use('/users', [
 
       <section>
         <h2>3. Serving HTML Pages</h2>
-        <p>StationJS supports file-based routing for serving HTML pages. By default, it looks for files in the <code>views</code> directory. For example:</p>
+        <p>StationX supports file-based routing for serving HTML pages. By default, it looks for files in the <code>views</code> directory. For example:</p>
         <pre><code>// Accessing http://localhost:3000/about
 // Serves the file views/about.html</code></pre>
         <p>You can customize the directory by passing options when creating the server.</p>
@@ -58,15 +58,15 @@ const userRoutes = use('/users', [
 
       <section>
         <h2>4. Hot Reloading</h2>
-        <p>StationJS includes a hot reloading feature to automatically restart the server when you make changes to your code:</p>
+        <p>StationX includes a hot reloading feature to automatically restart the server when you make changes to your code:</p>
         <pre><code>station start</code></pre>
         <p>This ensures a smooth development experience without manual restarts.</p>
       </section>
 
       <section>
         <h2>5. Customizing Static and Media Directories</h2>
-        <p>You can customize where StationJS looks for static files (e.g., CSS, JS) and media files (e.g., images) by providing options:</p>
-        <pre><code>import { createServer } from 'station-js';
+        <p>You can customize where StationX looks for static files (e.g., CSS, JS) and media files (e.g., images) by providing options:</p>
+        <pre><code>import { createServer } from 'station-x';
 
 const options = {
   publicDir: 'views', // Directory for HTML files
@@ -81,12 +81,12 @@ server.listen(3000);</code></pre>
 
       <section>
         <h2>6. Putting It All Together</h2>
-        <p>Here's a complete example of a StationJS server:</p>
-        <pre><code>import { createServer, route, use } from 'station-js';
+        <p>Here's a complete example of a StationX server:</p>
+        <pre><code>import { createServer, route, use } from 'station-x';
 
 const homeRoute = route('/home', {
   GET: (ctx) => {
-    return { body: { message: 'Welcome to StationJS!' }, status: 200 };
+    return { body: { message: 'Welcome to StationX!' }, status: 200 };
   }
 });
 

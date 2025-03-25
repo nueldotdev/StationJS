@@ -73,7 +73,7 @@ if (args === 'start') {
       dev: "station start",
     },
     dependencies: {
-      "station-js": "^1.0.0",
+      "station-x": "^1.0.0",
     },
     devDependencies: {},
   };

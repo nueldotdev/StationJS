@@ -14,12 +14,7 @@ const basePath = '/users';
 const users = use(basePath, [
   route('/', {
     GET: (ctx) => {
-      return { 
-        body: { 
-          users: userList 
-        }, 
-        status: 200 
-      };
+      ctx.status(200).json({users: userList});  
     },
 
     POST: (ctx) => {
@@ -27,12 +22,7 @@ const users = use(basePath, [
       const id = userList.length + 1;
       const user = { id, name };
       userList.push(user);
-      return { 
-        body: { 
-          user 
-        }, 
-        status: 201 
-      };
+      ctx.status(201).json({user});
     }
   }),
 
@@ -41,61 +31,34 @@ const users = use(basePath, [
       const { id } = ctx.params;
       const user = userList.find((user) => user.id === parseInt(id));
       if (!user) {
-        return { 
-          body: { 
-            error: 'User not found' 
-          }, 
-          status: 404 
-        };
+        ctx.status(404).json({error: 'User not found'});
+        return;
       }
-      return { 
-        body: { 
-          user 
-        }, 
-        status: 200 
-      };
+      ctx.status(200).json({user});
     },
 
     DELETE: (ctx) => {
       const { id } = ctx.params;
       const index = userList.findIndex((user) => user.id === parseInt(id));
       if (index === -1) {
-        return { 
-          body: { 
-            error: 'User not found' 
-          }, 
-          status: 404 
-        };
+        ctx.status(404).json({error: 'User not found'});
+        return;
       }
       userList.splice(index, 1);
-      return { 
-        body: { 
-          message: 'User deleted' 
-        }, 
-        status: 200 
-      };
+      ctx.status(204).json({message: 'User deleted'});
     },
 
     PATCH: (ctx) => {
       const { id } = ctx.params;
       const index = userList.findIndex((user) => user.id === parseInt(id));
       if (index === -1) {
-        return { 
-          body: { 
-            error: 'User not found' 
-          }, 
-          status: 404 
-        };
+        ctx.status(404).json({error: 'User not found'});
+        return
       }
 
       const { name } = ctx.body;
       userList[index].name = name;
-      return { 
-        body: { 
-          user: userList[index] 
-        }, 
-        status: 200 
-      };
+      ctx.status(200).json({user: userList[index]});
     }
   }),
 ]);

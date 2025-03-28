@@ -1,13 +1,19 @@
 import url from 'url';
+import { IncomingMessage } from 'http';
 
-function parseRequest(req) {
-  const { pathname, query } = url.parse(req.url, true); // Parse the URL and query string
-  const method = req.method.toUpperCase(); // Normalize the HTTP method
+interface ParsedRequest {
+  pathname: string | null;
+  method: string;
+  query: Record<string, any>;
+}
+
+function parseRequest(req: IncomingMessage): ParsedRequest {
+  const { pathname, query } = url.parse(req.url || '', true); // Parse the URL and query string
+  const method = req.method?.toUpperCase() || ''; // Normalize the HTTP method
   return { pathname, method, query };
 }
 
-
-function parseRequestBody(req) {
+function parseRequestBody(req: IncomingMessage): Promise<any> {
   return new Promise((resolve, reject) => {
     let body = '';
     req.on('data', (chunk) => {

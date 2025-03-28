@@ -1,12 +1,12 @@
 import { watch } from 'chokidar';
-import { spawn } from 'child_process';
+import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import chalk from 'chalk';
 
-var reloadAmount = 0;
+let reloadAmount = 0;
 
 // Start the server as a child process
-function startServer(entryFile) {
+function startServer(entryFile: string): ChildProcess {
   if (reloadAmount > 0) {
     console.log(chalk.bgBlackBright(`♻️  Restarting server...`));
   } else {
@@ -18,7 +18,7 @@ function startServer(entryFile) {
 
   const server = spawn('node', [entryFile], { stdio: 'inherit' });
 
-  server.on('exit', (code) => {
+  server.on('exit', (code: number | null) => {
     if (code === 0 || code === null) {
       console.log(chalk.bgBlackBright(`✅ Server stopped gracefully.`));
       console.log(chalk.bgBlackBright(`🚀 Starting Server...`));
@@ -31,14 +31,14 @@ function startServer(entryFile) {
 }
 
 // Restart the server
-function restartServer(serverProcess,  entryFile) {
+function restartServer(serverProcess: ChildProcess, entryFile: string): ChildProcess {
   serverProcess.kill('SIGTERM'); // Gracefully stop the current server
 
   return startServer(entryFile); // Start a new server process
 }
 
 // Hot reload logic
-function hotReload(entryFile) {
+function hotReload(entryFile: string): void {
   let serverProcess = startServer(entryFile);
 
   // Watch for file changes in the current project directory
@@ -47,11 +47,10 @@ function hotReload(entryFile) {
     persistent: true,
   });
 
-  watcher.on('change', (file) => {
+  watcher.on('change', (file: string) => {
     console.log(chalk.bgBlackBright(`\n🔃 File changed: ${file}`));
     serverProcess = restartServer(serverProcess, entryFile); // Restart the server
   });
-
 
   // Handle termination signals
   process.on('SIGINT', () => {
@@ -62,6 +61,5 @@ function hotReload(entryFile) {
     process.exit();
   });
 }
-
 
 export { hotReload };

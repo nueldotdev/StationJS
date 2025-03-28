@@ -3,7 +3,7 @@ import users from './src/users.js';
 
 const main = route('/home', {
   GET: (ctx) => {
-    return { body: 'Hello, World!' };
+    ctx.status(200).json({ message: 'Hello, World!' });
   }
 })
 

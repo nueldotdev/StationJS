@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { hotReload } from "../src/utils/reload.js";
+import { hotReload } from "../dist/utils/reload.js";
 import path from "path";
-import { exec } from "child_process";
+// import { exec } from "child_process";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
@@ -11,25 +11,49 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function isValidPackageName(name) {
-  return /^([a-z0-9@][a-z0-9-._]*)$/.test(name);
+  return /^([a-z0-9\-]+)$/.test(name); // Allow only lowercase letters, numbers, and dashes
 }
 
 
-
-// Get the project entry file (default: index.js or user-defined)
 const command = process.argv
 const args = process.argv[2];
 
 
-if (args === 'start') {
-  const entryFile = "index.js";
+if (args === "start") {
+  // Look for package.json
+  const packageJsonPath = path.resolve(process.cwd(), "package.json");
+  let entryFile = null;
 
-  // Resolve the file path
+  if (fs.existsSync(packageJsonPath)) {
+    try {
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
+      if (packageJson.main) {
+        entryFile = packageJson.main;
+      }
+    } catch (err) {
+      console.error("Error reading package.json:", err);
+      process.exit(1);
+    }
+  }
+
+  // Check for possible entry files if package.json doesn't contain one
+  if (!entryFile) {
+    const possibleFiles = ["index.js", "index.ts", "main.js", "main.ts"];
+    entryFile = possibleFiles.find((file) => fs.existsSync(path.resolve(process.cwd(), file)));
+  }
+
+  // Exit if no file found
+  if (!entryFile) {
+    console.error("Error: No entry file found. Expected one of index.js, index.ts, main.js, or main.ts.");
+    process.exit(1);
+  }
+
+  // Resolve path and start the hot reload server
   const filePath = path.resolve(process.cwd(), entryFile);
-
-  // Start the hot reload server
+  console.log(`🚀 Starting: ${filePath}`);
   hotReload(filePath);
-} else if (args === "init") {
+}
+ else if (args === "init") {
   if (command.length < 4) {
     console.log("Please provide a project name.");
     process.exit(1);
@@ -73,7 +97,7 @@ if (args === 'start') {
       dev: "station start",
     },
     dependencies: {
-      "station-x": "^1.0.0",
+      "station-x": "^2.0.0",
     },
     devDependencies: {},
   };
